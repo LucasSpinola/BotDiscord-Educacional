@@ -1,0 +1,5 @@
+.env
+cmds
+__pycache__
+logs
+slashcmds
