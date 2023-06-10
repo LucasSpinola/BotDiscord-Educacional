@@ -1,17 +1,11 @@
 import requests
 import json
+from datetime import datetime, timedelta
 
-urlBD = "https://ave-bot-2d2d3-default-rtdb.firebaseio.com/"
+urlBD = ""
 
 
 def cria_pergunta(pergunta, resposta):
-  """
-  pergunta: String
-  resposta: String
-
-  Armazena uma pergunta e sua resposta na api. 
-  Retorna um booleano indicando se a operação foi bem sucedida ou não.
-  """
   #cria um dicionário com a pergunta e a resposta
   dicionario_pergunta = {'pergunta': pergunta, 'resposta': resposta}
 
@@ -25,14 +19,7 @@ def cria_pergunta(pergunta, resposta):
   return(requisicao.status_code == 200)
 
 def edita_pergunta(id, pergunta='pergunta padrao', resposta='resposta padrao'):
-  """
-  id: String
-  pergunta: String
-  resposta: String
 
-  Recebe o id de uma das perguntas da api e altera sua pergunta, sua resposta ou ambos.
-  Retorna um booleano indicando se a operação foi bem sucedida ou não.
-  """
   #edita apenas a resposta
   #cria um dicionário com a resposta
   if(pergunta == 'pergunta padrao'): dicionario_pergunta = {'resposta': resposta}
@@ -89,7 +76,7 @@ def get_aluno_id(matricula):
 
 def set_presenca(data, aluno_id):
   
-  dicionario_presenca = {data: True}
+  dicionario_presenca = {data: 1}
 
   #transforma o dicionário em json  
   json_presenca = json.dumps(dicionario_presenca)
@@ -105,3 +92,105 @@ def get_nome(matricula):
   for id in requisicao.json():
     if matricula == requisicao.json()[id]["matricula"]:
       return(requisicao.json()[id]["nome"])
+
+
+def add_id(aluno_id, id):
+      
+  dicionario_frequencia = {"id": id}
+
+  #transforma o dicionário em json  
+  json_freq = json.dumps(dicionario_frequencia)
+
+  #faz a requisição do tipo post na api
+  requisicao = requests.patch(f'{urlBD}/alunos/{aluno_id}/.json', data = json_freq)
+
+
+def comparar_id(matricula):
+  requisicao = le_alunos()
+
+  matricula = int(matricula)
+
+  for id in requisicao.json():
+    if matricula == requisicao.json()[id]["matricula"]:
+      return(requisicao.json()[id]["id"])
+
+
+def get_id(matricula):
+  requisicao = le_alunos()
+
+  id_d = str(matricula)
+
+  for id in requisicao.json():
+    if id_d == requisicao.json()[id]['id']:
+      return(requisicao.json()[id]["matricula"])
+
+def reset_id(aluno_id):
+      
+  dicionario_frequencia = {"id": 0}
+
+  #transforma o dicionário em json  
+  json_freq = json.dumps(dicionario_frequencia)
+
+  #faz a requisição do tipo post na api
+  requisicao = requests.patch(f'{urlBD}/alunos/{aluno_id}/.json', data = json_freq)
+
+def get_turma(matricula):
+  requisicao = le_alunos()
+
+  matricula = int(matricula)
+
+  for id in requisicao.json():
+    if matricula == requisicao.json()[id]["matricula"]:
+      return(requisicao.json()[id]["turma"])
+    
+    
+def add_resposta(aluno_id, n_teste, resposta):
+      
+  dicionario_miniteste = {str(n_teste): resposta}
+
+  #transforma o dicionário em json  
+  json_teste = json.dumps(dicionario_miniteste)
+
+  #faz a requisição do tipo post na api
+  requisicao = requests.patch(f'{urlBD}/alunos/{aluno_id}/miniteste/.json', data = json_teste)
+
+
+
+def cria_aluno(nome, matricula, turma, id):
+  
+      
+  matricula = int(matricula)
+  dicionario_pergunta = {'nome': nome, 'matricula': matricula, 'turma': turma, 'id': id}
+
+  #transforma o dicionário em json
+  json_pergunta = json.dumps(dicionario_pergunta)
+
+  #faz a requisição do tipo post na api
+  requisicao = requests.post(f'{urlBD}/alunos/.json', data = json_pergunta)
+
+  #verifica se a requisição foi bem sucedida (200)
+  return(requisicao.status_code == 200)
+
+
+def le_logs():
+      #le perguntas
+  requisicao = requests.get(f'{urlBD}/logs/.json')
+  
+  return(requisicao)
+
+
+def deleta_logs(id):
+      #deleta a pergunta com o id correspondente
+  requisicao = requests.delete(f'{urlBD}/logs/{id}/.json')
+
+  #verifica se a requisição foi bem sucedida (200)
+  return(requisicao.status_code == 200)
+
+def get_log(log):
+  requisicao = le_logs()
+
+  logs = str(log)
+
+  for id in requisicao.json():
+    if logs == requisicao.json()[id]['log']:
+      return(id)
