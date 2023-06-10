@@ -2,7 +2,7 @@ import settings
 import discord
 from discord.ext import commands
 import requests
-from discord import app_commands, utils
+from discord import utils
 from discord.ext.commands import Context
 from cogs.greetings import Greetings
 import pathlib
