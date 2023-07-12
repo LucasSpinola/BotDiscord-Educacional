@@ -2,7 +2,7 @@ import requests
 import json
 from datetime import datetime, timedelta
 
-urlBD = ""
+urlBD = "https://monitor-bot-88c17-default-rtdb.firebaseio.com/"
 
 
 def cria_pergunta(pergunta, resposta):
@@ -112,7 +112,7 @@ def comparar_id(matricula):
 
   for id in requisicao.json():
     if matricula == requisicao.json()[id]["matricula"]:
-      return(requisicao.json()[id]["id"])
+      return(requisicao.json()[id]["matricula"])
 
 
 def get_id(matricula):
@@ -194,3 +194,60 @@ def get_log(log):
   for id in requisicao.json():
     if logs == requisicao.json()[id]['log']:
       return(id)
+
+def get_teste(teste):
+    
+  requisicao = requests.get(f'{urlBD}/minitestes/.json')
+  
+  teste = "T"+teste
+  
+  for id in requisicao.json():
+    if teste == requisicao.json()[id]["teste"]:
+      return(requisicao.json()[id])
+    
+  return(None)
+
+def le_permissao():
+      #le perguntas
+  requisicao = requests.get(f'{urlBD}/permissao/.json')
+  
+  return(requisicao)
+
+
+def cria_permissao(nome, cargo, id):
+    
+  dicionario_pergunta = {'nome': nome, 'cargo': cargo, 'id': str(id)}
+
+  #transforma o dicionário em json
+  json_pergunta = json.dumps(dicionario_pergunta)
+
+  #faz a requisição do tipo post na api
+  requisicao = requests.post(f'{urlBD}/permissao/.json', data = json_pergunta)
+
+  #verifica se a requisição foi bem sucedida (200)
+  return(requisicao.status_code == 200)
+
+def verificar_permissao(id_p):
+  requisicao = le_permissao()
+
+  id = str(id_p)
+
+  for id in requisicao.json():
+    if id_p == requisicao.json()[id]["id"]:
+      return(requisicao.json()[id]["id"])
+    
+def get_frequencia():
+      
+  requisicao = le_alunos()
+
+  #print(requisicao.json())
+  dicionario_frequencia = {}
+
+  for id in requisicao.json():
+    #adiciona um aluno e sua frequência no dicionário
+    if('frequencia' in requisicao.json()[id]):
+      dicionario_frequencia[requisicao.json()[id]["matricula"]] = requisicao.json()[id]["frequencia"]
+    else:
+      dicionario_frequencia[requisicao.json()[id]["matricula"]] = {}
+  
+  return(dicionario_frequencia)
