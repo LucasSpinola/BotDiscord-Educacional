@@ -8,9 +8,9 @@ from requests.exceptions import JSONDecodeError
 class Narrativo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_narrativo = "https://apibot.orivaldo.pro.br:8000/api/v1/narrativo/ler_pergunta"
-        self.api_postnarra = "https://apibot.orivaldo.pro.br:8000/api/v1/nlp/narrativo"
-        self.api_aluno = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_narrativo = "http://apibot.orivaldo.pro.br:8000/api/v1/narrativo/ler_pergunta"
+        self.api_postnarra = "http://apibot.orivaldo.pro.br:8000/api/v1/nlp/narrativo"
+        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
 
     async def pegar_narrativo(self, numero_gabarito: int):

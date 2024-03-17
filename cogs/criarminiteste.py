@@ -7,8 +7,8 @@ import discord
 class CriarMiniteste(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "https://apibot.orivaldo.pro.br:8000/api/v1/miniteste/criar"
-        self.api_permissao = "https://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/criar"
+        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def check_permission(self, id_discord: str):

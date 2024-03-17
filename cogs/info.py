@@ -8,9 +8,9 @@ import os
 class UserInfo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
-        self.api_autorizado = "https://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_autorizado = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
 
     async def get_student_info(self, id: str):
         headers = {'Authorization': f'Bearer {self.token}'}

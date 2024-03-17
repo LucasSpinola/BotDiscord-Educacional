@@ -7,10 +7,10 @@ from discord import app_commands
 class Miniteste(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
-        self.api_miniteste = "https://apibot.orivaldo.pro.br:8000/api/v1/miniteste/pegar/{teste}"
-        self.api_miniteste_resposta = "https://apibot.orivaldo.pro.br:8000/api/v1/miniteste/adicionar/resposta"
+        self.api_miniteste = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/pegar/{teste}"
+        self.api_miniteste_resposta = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/adicionar/resposta"
 
     async def get_student_info(self, id: str):
         headers = {'Authorization': f'Bearer {self.token}'}

@@ -7,7 +7,7 @@ import os
 class Pergunta(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_nlp = "https://apibot.orivaldo.pro.br:8000/api/v1/nlp/pergunta"
+        self.api_nlp = "http://apibot.orivaldo.pro.br:8000/api/v1/nlp/pergunta"
         self.token = os.getenv('API_TOKEN')
 
     async def post_awnser(self, id: str, duvida: str):

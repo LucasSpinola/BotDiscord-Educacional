@@ -7,8 +7,8 @@ import os
 class BuscarAluno(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_aluno = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/busca_aluno"
-        self.api_permissao = "https://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/busca_aluno"
+        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def post_create_student(self, matricula: int):
