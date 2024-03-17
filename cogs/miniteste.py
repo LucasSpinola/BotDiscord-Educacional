@@ -7,10 +7,10 @@ from discord import app_commands
 class Miniteste(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.net:8000/api/v1/alunos/le_aluno"
+        self.api_url = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
-        self.api_miniteste = "http://apibot.orivaldo.net:8000/api/v1/miniteste/pegar/{teste}"
-        self.api_miniteste_resposta = "http://apibot.orivaldo.net:8000/api/v1/miniteste/adicionar/resposta"
+        self.api_miniteste = "https://apibot.orivaldo.pro.br:8000/api/v1/miniteste/pegar/{teste}"
+        self.api_miniteste_resposta = "https://apibot.orivaldo.pro.br:8000/api/v1/miniteste/adicionar/resposta"
 
     async def get_student_info(self, id: str):
         headers = {'Authorization': f'Bearer {self.token}'}
@@ -47,9 +47,9 @@ class Miniteste(commands.Cog):
                 view = self.ButtonsFor(interaction, data["teste"], pergunta, respostas, turma, n_teste, matricula, self.add_resposta, self.bot)
                 await interaction.response.send_message(embed=embed, view=view)
             else:
-                await interaction.response.send_message(f"{interaction.user}, este teste não existe ou ocorreu um erro ao recuperar os dados.")
+                await interaction.response.send_message(f"{interaction.user}, este teste não existe ou ocorreu um erro ao recuperar os dados. 🔴")
         except ValueError:
-            await interaction.response.send_message(f"{interaction.user}, o número do teste deve ser um valor numérico.")
+            await interaction.response.send_message(f"{interaction.user}, o número do teste deve ser um valor numérico. 🟡")
 
     class ButtonsFor(discord.ui.View):
         def __init__(self, interaction, nome, pergunta, respostas, n_teste, turma, matricula, add_resposta, bot):

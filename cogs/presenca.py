@@ -1,4 +1,3 @@
-
 from discord.ext import commands
 from discord import app_commands
 import requests
@@ -8,8 +7,8 @@ import discord
 class Presenca(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.net:8000/api/v1/presenca/registrar"
-        self.api_aluno = "http://apibot.orivaldo.net:8000/api/v1/alunos/le_aluno"
+        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/presenca"
+        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
 
     async def get_student_turma(self, id: str):
@@ -31,12 +30,25 @@ class Presenca(commands.Cog):
 
             if response.status_code == 200:
                 response_json = response.json()
-                mensagem = response_json.get("mensagem", "Presença cadastrada com sucesso!")
-                await interaction.response.send_message(f"{mensagem} ✅", ephemeral=True)
+                if "detail" in response_json and "fora do intervalo de tempo" in response_json["detail"]:
+                    mensagem = "Fora do intervalo de tempo para registrar a presença"
+                    await interaction.response.send_message(f"{interaction.user}, {mensagem}! 🔴")
+                elif "mensagem" in response_json:
+                    mensagem = response_json["mensagem"]
+                    await interaction.response.send_message(f"{mensagem}! ✅")
+                else:
+                    mensagem = "Presença registrada com sucesso"
+                    await interaction.response.send_message(f"{mensagem}! ✅")
             else:
-                await interaction.response.send_message(f"{interaction.user}, Matrícula do aluno não encontrada para esta disciplina! ❌", ephemeral=True)
+                response_json = response.json()
+                if "detail" in response_json:
+                    mensagem = response_json["detail"]
+                else:
+                    mensagem = "Erro ao registrar a presença"
+                await interaction.response.send_message(f"{interaction.user}, {mensagem}! 🔴")
         else:
-            await interaction.response.send_message(f"{interaction.user}, turma não encontrada ou não atribuída para este usuário! ❌", ephemeral=True)
+            await interaction.response.send_message(f"{interaction.user}, turma não encontrada ou não atribuída para este usuário! 🔴", ephemeral=True)
+
 
 async def setup(bot):
     await bot.add_cog(Presenca(bot))

@@ -6,8 +6,8 @@ import os
 class VerMinitestes(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.net:8000/api/v1/miniteste/aluno"
-        self.api_aluno = "http://apibot.orivaldo.net:8000/api/v1/alunos/le_aluno"
+        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/aluno"
+        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
 
     async def get_student_info(self, id: str):

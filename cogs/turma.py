@@ -7,8 +7,8 @@ import os
 class Turma(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_turmas = "http://apibot.orivaldo.net:8000/api/v1/turmas/ler_turma_professor"
-        self.api_permissao = "http://apibot.orivaldo.net:8000/api/v1/permissao/pegar_permissao"
+        self.api_turmas = "http://apibot.orivaldo.pro.br:8000/api/v1/turmas/ler_turma_professor"
+        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def get_turmas(self, id_professor: str):
@@ -20,7 +20,7 @@ class Turma(commands.Cog):
 
     async def check_permission(self, id_discord: str):
         headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.get(f"{self.api_permissao}?id_discord={id_discord}", headers=headers)
+        response = requests.get(f"{self.api_permissao}/{id_discord}", headers=headers)
         if response.status_code == 200:
             data = response.json()
             api_id_discord = data.get('id', '')
@@ -29,7 +29,7 @@ class Turma(commands.Cog):
         return False
     
     
-    @app_commands.command(name="turmas", description="Listar turmas do professor!")
+    @app_commands.command(name="minhasturmas", description="Listar turmas do professor!")
     async def listar_turmas(self, interaction: discord.Interaction):
         id_professor = str(interaction.user.id)
         check_permission = await self.check_permission(id_professor)

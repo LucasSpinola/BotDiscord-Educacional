@@ -8,10 +8,9 @@ import os
 class UserInfo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.net:8000/api/v1/alunos/le_aluno"
+        self.api_url = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
-        self.api_permissao = "http://apibot.orivaldo.net:8000/api/v1/permissao/verificar"
-        self.api_autorizado = "http://apibot.orivaldo.net:8000/api/v1/permissao/pegar_permissao"
+        self.api_autorizado = "https://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
 
     async def get_student_info(self, id: str):
         headers = {'Authorization': f'Bearer {self.token}'}
@@ -38,22 +37,13 @@ class UserInfo(commands.Cog):
 
     async def check_permission(self, id_discord: str):
         headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.get(f"{self.api_permissao}?id_discord={id_discord}", headers=headers)
+        response = requests.get(f"{self.api_autorizado}/{id_discord}", headers=headers)
         if response.status_code == 200:
             data = response.json()
-            if 'permissao' in data and data['permissao'].lower() == id_discord.lower():
+            api_id_discord = data.get('id', '')
+            if api_id_discord == id_discord:
                 return True
-            else:
-                return False
-
-    async def get_permission(self, id_discord: str):
-        headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.get(f"{self.api_autorizado}?id_discord={id_discord}", headers=headers)
-        if response.status_code == 200:
-            data = response.json()
-            return data
-        else:
-            return None
+        return False
 
 
     @app_commands.command(name="userinfo", description="Mostra informações do usuário.")

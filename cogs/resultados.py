@@ -7,8 +7,8 @@ import os
 class Resultado(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.net:8000/api/v1/miniteste/alunos"
-        self.api_permissao = "http://apibot.orivaldo.net:8000/api/v1/permissao/pegar_permissao"
+        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/alunos"
+        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
         
     async def get_miniteste_alunos(self, turma: str):
@@ -24,7 +24,7 @@ class Resultado(commands.Cog):
     
     async def check_permission(self, id_discord: str):
         headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.get(f"{self.api_permissao}?id_discord={id_discord}", headers=headers)
+        response = requests.get(f"{self.api_permissao}/{id_discord}", headers=headers)
         if response.status_code == 200:
             data = response.json()
             api_id_discord = data.get('id', '')

@@ -7,8 +7,8 @@ import os
 class Aluno(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_aluno = "http://apibot.orivaldo.net:8000/api/v1/alunos/cria_aluno"
-        self.api_permissao = "http://apibot.orivaldo.net:8000/api/v1/permissao/pegar_permissao"
+        self.api_aluno = "https://apibot.orivaldo.pro.br:8000/api/v1/alunos/cria_aluno"
+        self.api_permissao = "https://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def post_create_student(self, nome: str, matricula: int, turma: str, sub_turma: str):
@@ -21,7 +21,7 @@ class Aluno(commands.Cog):
 
     async def check_permission(self, id_discord: str):
         headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.get(f"{self.api_permissao}?id_discord={id_discord}", headers=headers)
+        response = requests.get(f"{self.api_permissao}/{id_discord}", headers=headers)
         if response.status_code == 200:
             data = response.json()
             api_id_discord = data.get('id', '')
