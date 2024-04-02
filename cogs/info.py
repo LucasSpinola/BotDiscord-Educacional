@@ -5,12 +5,14 @@ import requests
 import datetime
 import os
 
+API = os.getenv('API_URL')
+
 class UserInfo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_url = "{API}/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
-        self.api_autorizado = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_autorizado = "{API}/api/v1/permissao/pegar_permissao"
 
     async def get_student_info(self, id: str):
         headers = {'Authorization': f'Bearer {self.token}'}
@@ -52,27 +54,34 @@ class UserInfo(commands.Cog):
         if member is None:
             member = interaction.user
 
-        check_permission = await self.check_permission(id_user)
-        if check_permission == True:
+        if isinstance(member, discord.Member):
+            check_permission = await self.check_permission(id_user)
+            if check_permission:
 
-            student_data = await self.get_student_info(str(member.id))
-            nome, matricula, turma, sub_turma = await self.process_student_data(student_data, str(member.id))
-            embed = discord.Embed(title="📄 Informações do usuário:", color=0x0000FF, timestamp=datetime.datetime.utcnow())
-            embed.set_thumbnail(url=member.avatar)
-            embed.add_field(name="🆔 ID:", value=member.id)
-            embed.add_field(name="👤 Nome:", value=nome)
-            embed.add_field(name="🎓 Matrícula:", value=matricula)
-            embed.add_field(name="🏷️ Nick:", value=f"{member.name}#{member.discriminator}")
-            embed.add_field(name="🗂️ Turma:", value=turma)
-            embed.add_field(name="📚 Sub-Turma:", value=sub_turma)
-            embed.add_field(name="📅 Criado em:", value=member.created_at.strftime("%#d %B %Y "))
-            embed.add_field(name="🚪 Entrou em:", value=member.joined_at.strftime("%a, %#d %B %Y "))
-            embed.add_field(name=f"💼 Cargos ({len(member.roles)})", value=" ".join([role.mention for role in member.roles]))
-            embed.add_field(name="🤖 Bot:", value=member.bot)
-            await interaction.response.send_message(embed=embed, ephemeral=True)
-        
+                student_data = await self.get_student_info(str(member.id))
+                nome, matricula, turma, sub_turma = await self.process_student_data(student_data, str(member.id))
+                embed = discord.Embed(title="📄 Informações do usuário:", color=0x0000FF, timestamp=datetime.datetime.utcnow())
+                embed.set_thumbnail(url=member.avatar)
+                embed.add_field(name="🆔 ID:", value=member.id)
+                embed.add_field(name="👤 Nome:", value=nome)
+                embed.add_field(name="🎓 Matrícula:", value=matricula)
+                embed.add_field(name="🏷️ Nick:", value=f"{member.name}#{member.discriminator}")
+                embed.add_field(name="🗂️ Turma:", value=turma)
+                embed.add_field(name="📚 Sub-Turma:", value=sub_turma)
+                embed.add_field(name="📅 Criado em:", value=member.created_at.strftime("%#d %B %Y "))
+
+                # Check if the member joined the server
+                if member.joined_at:
+                    embed.add_field(name="🚪 Entrou em:", value=member.joined_at.strftime("%a, %#d %B %Y "))
+                
+                embed.add_field(name=f"💼 Cargos ({len(member.roles)})", value=" ".join([role.mention for role in member.roles]))
+                embed.add_field(name="🤖 Bot:", value=member.bot)
+                await interaction.response.send_message(embed=embed, ephemeral=True)
+            
+            else:
+                await interaction.response.send_message(f"{member.name}, você não tem permissão para usar este comando. ❌", ephemeral=True)
         else:
-            await interaction.response.send_message(f"{member.name}, você não tem permissão para usar este comando. ❌", ephemeral=True)
+            await interaction.response.send_message("Este comando só pode ser usado dentro de um servidor.", ephemeral=True)
 
     
     @app_commands.command(name="myuser", description="Mostra informações do seu perfil no servidor.")
@@ -91,7 +100,6 @@ class UserInfo(commands.Cog):
         embed.add_field(name="🤖 Bot:", value=member.bot)
         embed.add_field(name="📅 Criado em:", value=member.created_at.strftime("%#d %B %Y "))
         embed.add_field(name="🚪 Entrou em:", value=member.joined_at.strftime("%a, %#d %B %Y "))
-        embed
         await interaction.response.send_message(embed=embed, ephemeral=True)
     
 

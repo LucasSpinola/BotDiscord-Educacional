@@ -4,11 +4,12 @@ from discord import app_commands
 import os
 import requests
 
+API = os.getenv('API_URL')
 
 class Ajuda(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_permissao = "{API}/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
         
     async def check_permission(self, id_discord: str):
@@ -52,6 +53,7 @@ class Ajuda(commands.Cog):
             embedVar.add_field(name="/resultadoteste {turma} {teste}", value="Mostra os minitestes respondidos de uma determinada turma", inline=False)
             embedVar.add_field(name="/criarpergunta {pergunta} {resposta}", value="Cria uma pergunta no banco de dados", inline=False)
             embedVar.add_field(name="/criarnarrativo", value="Cria uma pergunta e resposta de um algoritmo de linguagem narrativa", inline=False)
+            embedVar.add_field(name="/baixarfrquencia {turma}", value="Use para baixar a frequência da turma que foi selecionada.", inline=False)
             await interaction.response.send_message(embed=embedVar)
             
         else:

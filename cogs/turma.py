@@ -4,11 +4,13 @@ from discord import app_commands
 import requests
 import os
 
+API = os.getenv('API_URL')
+
 class Turma(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_turmas = "http://apibot.orivaldo.pro.br:8000/api/v1/turmas/ler_turma_professor"
-        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_turmas = "{API}/api/v1/turmas/ler_turma_professor"
+        self.api_permissao = "{API}/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def get_turmas(self, id_professor: str):

@@ -8,7 +8,7 @@ class ButtonsTwo(discord.ui.View):
     
     @discord.ui.button(label="Youtube", style=discord.ButtonStyle.red, custom_id="5")
     async def redes1(self, interaction: discord.Interaction, Button: discord.ui.Button):
-        await interaction.response.send_message(content="Canal do professor: http://www.youtube.com/@orivaldo 🟥")
+        await interaction.response.send_message(content="Canal do professor: https://www.youtube.com/@orivaldo 🟥")
     
     @discord.ui.button(label="Email", style=discord.ButtonStyle.blurple, custom_id="6")
     async def redes2(self, interaction: discord.Interaction, Button: discord.ui.Button):
@@ -16,7 +16,7 @@ class ButtonsTwo(discord.ui.View):
     
     @discord.ui.button(label="Github", style=discord.ButtonStyle.green, custom_id="7")
     async def redes3(self, interaction: discord.Interaction, Button: discord.ui.Button):
-        await interaction.response.send_message(content="Github do professor: http://github.com/orivaldosantana/ECT2203LoP 🐱‍👤")
+        await interaction.response.send_message(content="Github do professor: https://github.com/orivaldosantana/ECT2203LoP 🐱‍👤")
 
 class Redes(commands.Cog):
     def __init__(self, bot: commands.Bot):

@@ -4,12 +4,14 @@ import requests
 import os
 import discord
 
+API = os.getenv('API_URL')
+
 class Cadastrar(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/adicionar_id_discord"
-        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
-        self.api_permission = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_url = "{API}/api/v1/alunos/adicionar_id_discord"
+        self.api_aluno = "{API}/api/v1/alunos/le_aluno"
+        self.api_permission = "{API}/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def check_permission(self, id_discord: str):
@@ -42,7 +44,7 @@ class Cadastrar(commands.Cog):
         elif response == "already_registered":
             await interaction.response.send_message(f"{interaction.user}, seu ID já foi cadastrado! ❎")
         else:
-            await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao cadastrar seu ID, matricula incorreta ou não cadastrada! 🔴")
+            await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao cadastrar seu ID, matricula incorreta ou não cadastrada! 🔺")
 
 async def setup(bot):
     await bot.add_cog(Cadastrar(bot))

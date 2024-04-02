@@ -4,10 +4,12 @@ from discord import app_commands
 import requests
 import os
 
+API = os.getenv('API_URL')
+
 class Pergunta(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_nlp = "http://apibot.orivaldo.pro.br:8000/api/v1/nlp/pergunta"
+        self.api_nlp = "{API}/api/v1/nlp/pergunta"
         self.token = os.getenv('API_TOKEN')
 
     async def post_awnser(self, id: str, duvida: str):
@@ -25,7 +27,7 @@ class Pergunta(commands.Cog):
         if response:
             await interaction.response.send_message(f"Olá {interaction.user}, achei uma resposta para sua dúvida!\n" + response)
         else:
-            await interaction.response.send_message(f"{interaction.user}, erro ao processar a pergunta, tente novamente. ❌")
+            await interaction.response.send_message(f"Olá {interaction.user}," + response)
 
 async def setup(bot):
     await bot.add_cog(Pergunta(bot))

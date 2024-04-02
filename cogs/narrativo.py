@@ -5,12 +5,14 @@ from discord import app_commands
 import os
 from requests.exceptions import JSONDecodeError
 
+API = os.getenv('API_URL')
+
 class Narrativo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_narrativo = "http://apibot.orivaldo.pro.br:8000/api/v1/narrativo/ler_pergunta"
-        self.api_postnarra = "http://apibot.orivaldo.pro.br:8000/api/v1/nlp/narrativo"
-        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_narrativo = "{API}/api/v1/narrativo/ler_pergunta"
+        self.api_postnarra = "{API}/api/v1/nlp/narrativo"
+        self.api_aluno = "{API}/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
 
     async def pegar_narrativo(self, numero_gabarito: int):
@@ -79,7 +81,7 @@ class Narrativo(commands.Cog):
             mymodal = self.MyModal(narrativo_instance=self, pergunta=pergunta, numero_gabarito=gabarito)
             await interaction.response.send_modal(mymodal)
         else:
-            await interaction.response.send_message(f"{interaction.user}, não foi possível obter a pergunta do gabarito. 🔴", ephemeral=True)
+            await interaction.response.send_message(f"{interaction.user}, não foi possível obter a pergunta do gabarito. 🔺", ephemeral=True)
         
 async def setup(bot):
     await bot.add_cog(Narrativo(bot))

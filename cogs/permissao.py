@@ -4,17 +4,19 @@ import requests
 import os
 import discord
 
+API = os.getenv('API_URL')
+
 class Permissao(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/adicionar/"
-        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
-        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_url = "{API}/api/v1/permissao/adicionar/"
+        self.api_aluno = "{API}/api/v1/alunos/le_aluno"
+        self.api_permissao = "{API}/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def check_permission(self, id_discord: str):
         headers = {'Authorization': f'Bearer {self.token}'}
-        response = requests.get(f"{self.api_permissao}/{id_discord}", headers=headers, verify=False)
+        response = requests.get(f"{self.api_permissao}/{id_discord}", headers=headers)
         if response.status_code == 200:
             data = response.json()
             api_id_discord = data.get('id', '')
@@ -37,10 +39,10 @@ class Permissao(commands.Cog):
             if await self.post_create(id, nome, cargo):
                 await interaction.response.send_message(f"{interaction.user}, a permissão foi adicionada com sucesso! ✅")
             else:
-                await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao criar a pergunta! 🔴")
+                await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao criar a pergunta! 🔺")
         
         else:
-            await interaction.response.send_message(f"{interaction.user}, você não tem permissão para usar este comando. 🔴", ephemeral=True)
+            await interaction.response.send_message(f"{interaction.user}, você não tem permissão para usar este comando. 🔺", ephemeral=True)
         
 async def setup(bot):
     await bot.add_cog(Permissao(bot))

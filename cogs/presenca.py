@@ -4,11 +4,13 @@ import requests
 import os
 import discord
 
+API = os.getenv('API_URL')
+
 class Presenca(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/presenca"
-        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_url = "{API}/api/v1/presenca/"
+        self.api_aluno = "{API}/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
 
     async def get_student_turma(self, id: str):
@@ -32,7 +34,7 @@ class Presenca(commands.Cog):
                 response_json = response.json()
                 if "detail" in response_json and "fora do intervalo de tempo" in response_json["detail"]:
                     mensagem = "Fora do intervalo de tempo para registrar a presença"
-                    await interaction.response.send_message(f"{interaction.user}, {mensagem}! 🔴")
+                    await interaction.response.send_message(f"{interaction.user}, {mensagem}! 🔺")
                 elif "mensagem" in response_json:
                     mensagem = response_json["mensagem"]
                     await interaction.response.send_message(f"{mensagem}! ✅")
@@ -45,9 +47,9 @@ class Presenca(commands.Cog):
                     mensagem = response_json["detail"]
                 else:
                     mensagem = "Erro ao registrar a presença"
-                await interaction.response.send_message(f"{interaction.user}, {mensagem}! 🔴")
+                await interaction.response.send_message(f"{interaction.user}, {mensagem}! 🔺")
         else:
-            await interaction.response.send_message(f"{interaction.user}, turma não encontrada ou não atribuída para este usuário! 🔴", ephemeral=True)
+            await interaction.response.send_message(f"{interaction.user}, turma não encontrada ou não atribuída para este usuário! 🔺", ephemeral=True)
 
 
 async def setup(bot):

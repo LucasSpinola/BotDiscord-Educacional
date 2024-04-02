@@ -3,11 +3,14 @@ from discord.ext import commands
 import requests
 from discord import app_commands
 import os
+
+API = os.getenv('API_URL')
+
 class VerMinitestes(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/aluno"
-        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
+        self.api_url = "{API}/api/v1/miniteste/aluno"
+        self.api_aluno = "{API}/api/v1/alunos/le_aluno"
         self.token = os.getenv('API_TOKEN')
 
     async def get_student_info(self, id: str):

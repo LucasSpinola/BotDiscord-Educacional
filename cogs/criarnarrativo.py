@@ -4,12 +4,14 @@ import requests
 import os
 import discord
 
+API = os.getenv('API_URL')
+
 class CriarNarrativo(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/narrativo/adicionar"
-        self.api_aluno = "http://apibot.orivaldo.pro.br:8000/api/v1/alunos/le_aluno"
-        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_url = "{API}/api/v1/narrativo/adicionar"
+        self.api_aluno = "{API}/api/v1/alunos/le_aluno"
+        self.api_permissao = "{API}/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def check_permission(self, id_discord: str):
@@ -38,9 +40,9 @@ class CriarNarrativo(commands.Cog):
             if narrativo:
                 await interaction.response.send_message(f"{interaction.user}, o narrativo foi adicionado com sucesso! ✅")
             else:
-                await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao criar o narrativo! 🔴")
+                await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao criar o narrativo! 🔺")
         else:
-            await interaction.response.send_message(f"{interaction.user}, você não tem permissão para usar este comando! 🔴", ephemeral=True)
+            await interaction.response.send_message(f"{interaction.user}, você não tem permissão para usar este comando! 🔺", ephemeral=True)
             
 async def setup(bot):
     await bot.add_cog(CriarNarrativo(bot))

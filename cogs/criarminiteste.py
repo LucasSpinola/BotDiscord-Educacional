@@ -4,11 +4,13 @@ import requests
 import os
 import discord
 
+API = os.getenv('API_URL')
+
 class CriarMiniteste(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        self.api_url = "http://apibot.orivaldo.pro.br:8000/api/v1/miniteste/criar"
-        self.api_permissao = "http://apibot.orivaldo.pro.br:8000/api/v1/permissao/pegar_permissao"
+        self.api_url = "{API}/api/v1/miniteste/criar"
+        self.api_permissao = "{API}/api/v1/permissao/pegar_permissao"
         self.token = os.getenv('API_TOKEN')
 
     async def check_permission(self, id_discord: str):
@@ -37,9 +39,9 @@ class CriarMiniteste(commands.Cog):
             if await self.post_create(pergunta, resposta, teste):
                 await interaction.response.send_message(f"{interaction.user}, o miniteste foi criado com sucesso! ✅")
             else:
-                await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao criar o miniteste! 🔴")
+                await interaction.response.send_message(f"{interaction.user}, ocorreu um erro ao criar o miniteste! 🔺")
         else:
-            await interaction.response.send_message(f"{interaction.user}, você não tem permissão para usar este comando. 🔴", ephemeral=True)
+            await interaction.response.send_message(f"{interaction.user}, você não tem permissão para usar este comando. 🔺", ephemeral=True)
         
 async def setup(bot):
     await bot.add_cog(CriarMiniteste(bot))
