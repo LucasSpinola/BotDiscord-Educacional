@@ -7,4 +7,4 @@ Uma das principais funcionalidades do bot é o sistema de perguntas e respostas.
 
 Além disso, o bot pode gerar quizzes e testes para os usuários, avaliando seus conhecimentos em determinados assuntos. Ele fornece feedback imediato ao professor sobre as respostas dos alunos, ajudando-os a identificar áreas em que precisam melhorar.
 
-Em resumo, o bot desenvolvido com Discord.py visa facilitar o desenvolvimento de métodos educacionais, proporcionando uma plataforma interativa e engajadora para estudantes e professores. Ele promove a colaboração, o aprendizado autônomo e o aprimoramento de habilidades, tornando o processo educacional mais dinâmico e eficiente.
+Em resumo, o bot desenvolvido com Discord.py visa facilitar o desenvolvimento de métodos educacionais, proporcionando uma plataforma interativa e engajadora para estudantes e professores. Ele promove a colaboração, o aprendizado autônomo e o aprimoramento de habilidades, tornando o processo educacional mais dinâmico e eficiente..
